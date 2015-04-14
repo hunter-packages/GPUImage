@@ -28,6 +28,7 @@ target_include_directories(
     PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/framework/Source/${platform}>"
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/framework/Source>"
+    "$<INSTALL_INTERFACE:include>"
 )
 
 set_target_properties(
@@ -68,3 +69,19 @@ if(GPUIMAGE_BUILD_EXAMPLES)
     add_subdirectory("./examples/Mac")
   endif()
 endif()
+
+install(FILES GPUImageConfig.cmake DESTINATION "lib/cmake/GPUImage")
+install(TARGETS gpuimage DESTINATION "lib" EXPORT GPUImageTargets)
+install(
+    EXPORT GPUImageTargets NAMESPACE GPUImage:: DESTINATION "lib/cmake/GPUImage"
+)
+
+set(headers "")
+foreach(x ${GPUIMAGE_SOURCES})
+  string(REGEX MATCH ".*\\.h$" is_header "${x}")
+  if(is_header)
+    list(APPEND headers "${x}")
+  endif()
+endforeach()
+
+install(FILES ${headers} DESTINATION "include/GPUImage")
