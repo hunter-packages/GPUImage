@@ -22,5 +22,6 @@ sugar_files(
 
 sugar_files(
     FILTERSHOWCASE_RESOURCES
+    FilterShowcase/en.lproj/MainMenu.xib
     SLSFilterShowcaseWindowController.xib
 )

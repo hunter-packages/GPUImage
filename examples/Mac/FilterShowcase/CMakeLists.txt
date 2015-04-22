@@ -24,7 +24,7 @@ add_executable(
 )
 
 set_source_files_properties(
-    ${FILTERSHOWCASE_RESOURCES}
+  "${FILTERSHOWCASE_RESOURCES}"
     PROPERTIES
     MACOSX_PACKAGE_LOCATION
     Resources
@@ -33,9 +33,9 @@ set_source_files_properties(
 set_target_properties(
     FilterShowcase
     PROPERTIES
-    MACOSX_BUNDLE_INFO_PLIST
-    ${FILTERSHOWCASE_PLIST}
-)
+    RESOURCE "${FILTERSHOWCASE_RESOURCES}"
+    MACOSX_BUNDLE_INFO_PLIST "${FILTERSHOWCASE_PLIST}"
+    )
 
 if(TARGET gpuimage)
   set(temp_include "${CMAKE_CURRENT_BINARY_DIR}/A")
@@ -56,10 +56,22 @@ if(TARGET gpuimage)
       "${CMAKE_CURRENT_LIST_DIR}/../../../framework/Source/"
       "${temp_include}/GPUImage"
   )
+
   target_link_libraries(FilterShowcase PRIVATE gpuimage)
   target_include_directories(FilterShowcase PRIVATE "${temp_include}")
 else()
+
+  # FORCE LINKER TO LINK GPUImageView
+  # http://stackoverflow.com/questions/1725881/unknown-class-myclass-in-interface-builder-file-error-at-runtime
+  #
+  # Despite the "Unknown class MyClass in Interface Builder file." error printed at runtime,
+  # this issue has nothing to do with Interface Builder, but rather with the linker, which is
+  # not linking a class because no code uses it directly.
+  
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -all_load -ObjC")
+
   hunter_add_package(GPUImage)
   find_package(GPUImage CONFIG REQUIRED)
   target_link_libraries(FilterShowcase PRIVATE GPUImage::gpuimage)
+
 endif()
