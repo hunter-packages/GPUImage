@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMedia/CoreMedia.h>
+#import <AppKit/AppKit.h> // NSOpenGLContext
 #import "GLProgram.h"
 #import "GPUImageFramebuffer.h"
 #import "GPUImageFramebufferCache.h"
