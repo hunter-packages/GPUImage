@@ -60,7 +60,7 @@ else()
       "-framework CoreData"
       "-framework Foundation"
   )
-  target_link_libraries(gpuimage "-all_load" "-ObjC")
+  target_link_libraries(gpuimage "-ObjC")
 endif()
 
 if(GPUIMAGE_BUILD_EXAMPLES)
