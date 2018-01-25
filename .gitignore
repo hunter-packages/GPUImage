@@ -23,3 +23,8 @@ xcuserdata
 # Documentation
 documentation/*
 
+# hunter/polly
+_*
+
+# emacs
+*~

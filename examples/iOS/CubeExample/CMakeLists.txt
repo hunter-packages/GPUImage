@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 3.0)
 
 include("cmake/HunterGate.cmake")
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.8.5.tar.gz"
-    SHA1 "682a963d3e0c7f59eca36ed4b3faee0ab4010788"
+    URL "https://github.com/ruslo/hunter/archive/v0.19.234.tar.gz"
+    SHA1 "3deec1041bd01c91e78269522b901fbab3a765e5"
 )
 
 project(GPUImage)
 
-hunter_add_package(Sugar)
-include("${SUGAR_ROOT}/cmake/Sugar")
+hunter_add_package(sugar)
+find_package(sugar CONFIG REQUIRED)
 include(sugar_include)
 
 sugar_include("./")
@@ -59,7 +59,7 @@ target_link_libraries(
 )
 
 if(TARGET gpuimage)
-  add_library(GPUImage::gpuimage gpuimage)
+  add_library(GPUImage::gpuimage ALIAS gpuimage)
 else()
   hunter_add_package(GPUImage)
   find_package(GPUImage CONFIG REQUIRED)
