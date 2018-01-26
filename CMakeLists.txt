@@ -14,8 +14,7 @@ find_package(sugar CONFIG REQUIRED)
 
 sugar_include("./framework") # GPUIMAGE_SOURCES
 
-string(COMPARE EQUAL "${CMAKE_OSX_SYSROOT}" "iphoneos" is_ios)
-if(is_ios)
+if(IOS)
   set(platform "iOS")
 else()
   set(platform "Mac")
@@ -36,7 +35,7 @@ set_target_properties(
     XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC YES
 )
 
-if(is_ios)
+if(IOS)
   target_link_libraries(
       gpuimage
       "-framework CoreMedia"
@@ -63,7 +62,7 @@ endif()
 target_link_libraries(gpuimage "-ObjC")
 
 if(GPUIMAGE_BUILD_EXAMPLES)
-  if(is_ios)
+  if(IOS)
     add_subdirectory("./examples/iOS")
   else()
     add_subdirectory("./examples/Mac")

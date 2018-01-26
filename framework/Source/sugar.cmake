@@ -12,8 +12,7 @@ endif()
 include(sugar_files)
 include(sugar_include)
 
-string(COMPARE EQUAL "${CMAKE_OSX_SYSROOT}" "iphoneos" is_ios)
-if(is_ios)
+if(IOS)
   sugar_include(iOS)
   sugar_files(
       GPUIMAGE_SOURCES
