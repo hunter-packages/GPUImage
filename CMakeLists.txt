@@ -11,12 +11,10 @@ option(GPUIMAGE_BUILD_EXAMPLES "Build examples" OFF)
 
 hunter_add_package(sugar)
 find_package(sugar CONFIG REQUIRED)
-include(sugar_include)
 
 sugar_include("./framework") # GPUIMAGE_SOURCES
 
-string(COMPARE EQUAL "${CMAKE_OSX_SYSROOT}" "iphoneos" is_ios)
-if(is_ios)
+if(IOS)
   set(platform "iOS")
 else()
   set(platform "Mac")
@@ -37,34 +35,58 @@ set_target_properties(
     XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC YES
 )
 
-if(is_ios)
+if(IOS)
+  find_package(coremedia REQUIRED)
+  find_package(corevideo REQUIRED)
+  find_package(opengles REQUIRED)
+  find_package(quartzcore REQUIRED)
+  find_package(avfoundation REQUIRED)
+  find_package(uikit REQUIRED)
+  find_package(foundation REQUIRED)
+
   target_link_libraries(
       gpuimage
-      "-framework CoreMedia"
-      "-framework CoreVideo"
-      "-framework OpenGLES"
-      "-framework QuartzCore"
-      "-framework AVFoundation"
-      "-framework UIKit"
-      "-framework Foundation"
+      PUBLIC
+      coremedia::coremedia
+      corevideo::corevideo
+      opengles::opengles
+      quartzcore::quartzcore
+      avfoundation::avfoundation
+      uikit::uikit
+      foundation::foundation
   )
 else()
+  find_package(OpenGL REQUIRED)
+
+  find_package(foundation REQUIRED)
+  find_package(appkit REQUIRED)
+  find_package(coredata REQUIRED)
+  find_package(quartzcore REQUIRED)
+  find_package(coremedia REQUIRED)
+  find_package(avfoundation REQUIRED)
+  find_package(appkit REQUIRED)
+  find_package(coredata REQUIRED)
+  find_package(foundation REQUIRED)
+
   target_link_libraries(
       gpuimage
-      "-framework Cocoa"
-      "-framework OpenGL"
-      "-framework QuartzCore"
-      "-framework CoreMedia"
-      "-framework AVFoundation"
-      "-framework AppKit"
-      "-framework CoreData"
-      "-framework Foundation"
+      PUBLIC
+      OpenGL::GL
+      foundation::foundation
+      appkit::appkit
+      coredata::coredata
+      quartzcore::quartzcore
+      coremedia::coremedia
+      avfoundation::avfoundation
+      appkit::appkit
+      coredata::coredata
+      foundation::foundation
   )
 endif()
-target_link_libraries(gpuimage "-ObjC")
+target_link_libraries(gpuimage PRIVATE "-ObjC")
 
 if(GPUIMAGE_BUILD_EXAMPLES)
-  if(is_ios)
+  if(IOS)
     add_subdirectory("./examples/iOS")
   else()
     add_subdirectory("./examples/Mac")
