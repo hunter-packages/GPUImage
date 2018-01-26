@@ -11,7 +11,6 @@ option(GPUIMAGE_BUILD_EXAMPLES "Build examples" OFF)
 
 hunter_add_package(sugar)
 find_package(sugar CONFIG REQUIRED)
-include(sugar_include)
 
 sugar_include("./framework") # GPUIMAGE_SOURCES
 
