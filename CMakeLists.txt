@@ -38,6 +38,7 @@ set_target_properties(
 if(IOS)
   find_package(coremedia REQUIRED)
   find_package(corevideo REQUIRED)
+  find_package(coregraphics REQUIRED)
   find_package(opengles REQUIRED)
   find_package(quartzcore REQUIRED)
   find_package(avfoundation REQUIRED)
@@ -49,6 +50,7 @@ if(IOS)
       PUBLIC
       coremedia::coremedia
       corevideo::corevideo
+      coregraphics::coregraphics
       opengles::opengles
       quartzcore::quartzcore
       avfoundation::avfoundation
